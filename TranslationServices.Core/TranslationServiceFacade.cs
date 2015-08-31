@@ -96,6 +96,28 @@ namespace TranslationAssistant.TranslationServices.Core
                 }
             }
             client.Close();
+
+            //Add the custom languages, if any
+            try
+            {
+                foreach (string lang in Properties.Settings.Default.CustomLanguages.GetKeyList())
+                {
+                    AvailableLanguages.Add(lang, Properties.Settings.Default.CustomLanguages.GetByIndex(Properties.Settings.Default.CustomLanguages.IndexOfKey(lang)).ToString());
+                }
+            }
+            catch { }
+        }
+
+        public static void AddCustomLanguage(string langcode, string langname)
+        {
+            Properties.Settings.Default.CustomLanguages.Add(langcode, langname);
+            Properties.Settings.Default.Save();
+        }
+
+        public static void DeleteCustomLanguage(string langcode)
+        {
+            Properties.Settings.Default.CustomLanguages.Remove(langcode);
+            Properties.Settings.Default.Save();
         }
 
         /// <summary>
